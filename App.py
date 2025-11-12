@@ -6,9 +6,19 @@ numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 
 def varifier():
+    global entry
+    entry = pass_entry.get()
     if not any(char in symbols for char in entry) and not any(char in numbers for char in entry):
         print("weak password")
         print("You should add some symbols or numbers")
+    elif any (char in symbols for char in entry) and not any(char in numbers for char in entry):
+        print("medium password")
+        print("You should add some numbers")
+    elif any(char in numbers for char in entry) and not any(char in symbols for char in entry):
+        print("medium password")
+        print("You should add some Symbols")
+    else:
+        print("strong password")
 
 
 
@@ -22,8 +32,7 @@ def passcheck():
     enter = tk.Button(window, text = "Enter", bg = "white", fg ="black", command = varifier)
     enter.grid(row=0, column=1, padx=5, pady=10)
 
-    global entry
-    entry = pass_entry.get()
+    
 
 
 #Main window
