@@ -1,8 +1,9 @@
 import tkinter as tk
-
+import random
 symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '{', '}', '[', ']', ':', ';', '"', "'", '<', '>', ',', '.', '?', '/','~','`']
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+           'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 
 def varifier():
@@ -20,12 +21,16 @@ def varifier():
         medpw2 = tk.Label(window, text="*Medium password. You should add Symbols", bg="lightblue", fg="red")
         medpw2.grid(row=1, column=4, padx=1, pady=10)
 
+    elif len(entry) <= 0:
+        nopw = tk.Label(window, text="*Please enter a password", bg="lightblue", fg="red")
+        nopw.grid(row=1, column=4, padx=1, pady=10)
+
     else:
         strongpw = tk.Label(window, text="*Strong Password", bg="lightblue", fg="green")
         strongpw.grid(row=1, column=4, padx=1, pady=10)
 
 
-
+#The text entry stuff
 def passcheck():
     pass_button.destroy()
     #password entry
@@ -38,13 +43,29 @@ def passcheck():
     back_button = tk.Button(window, text="<-- Back", bg="Red", fg="white", width= 20, command= window.destroy)
     back_button .grid(row=3, column=0, padx = 10, pady=10)
 
+def pwg():
+    genbutton.destroy()
+    global NewPW 
+    NewPW= ""
+    while len(NewPW) < 12:
+        NewChar = random.choice(symbols+numbers+letters)
+        NewPW += NewChar
+    newpw = "Generated Password: " + NewPW
+    pwlabel = tk.Label(window, text=newpw, bg="lightblue", fg="black")
+    pwlabel.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+    copybutton = tk.Button(window, text="Copy to Clipboard", bg="white", fg="black", command=copy_to_clipboard)
+    copybutton.grid(row=2, column=2, padx=10, pady=10)
 
 
+def copy_to_clipboard():
+    window.clipboard_clear()
+    window.clipboard_append(NewPW)
+    window.update()
 
 #Main window
 window = tk.Tk()
 window.title("The Cove")
-window.geometry("400x400")
+window.geometry("700x700")
 window.configure(bg="lightblue")  # Light blue background
 title =  tk.Label (window, text="The Cove", bg="lightblue", fg="black", font=("Arial", 23))
 title.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
@@ -53,6 +74,8 @@ title.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 pass_button = tk.Button(window, text="Password Checker", bg="white", fg="black" , width= 20, command= passcheck)
 pass_button.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
 
+genbutton = tk.Button(window, text="Password Generator", bg="white", fg="black", width= 25, command= pwg )
+genbutton.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
 
 window.mainloop()
